@@ -1,0 +1,23 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:9022/",
+      "sslPort": 0
+    }
+  },
+  "profiles": {
+    "WebService": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:9022/",
+      "environmentVariables": {
+        "DYO_STORAGE_ADAPTER_SERVICE_PORT": "9022",
+        "DYO_MONGODB_CONNECTIONSTRING": "mongodb://localhost:27017",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:9022/"
+    }
+  }
+}

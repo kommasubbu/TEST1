@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensewire-storage-adapter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensewire-storage-adapter
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: sensewire-storage-adapter
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: sensewire-storage-adapter
+        image: ghcr.io/ajaygithub39/storage-adapter:v0.0.1-prerelease38
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 250m
+          limits:
+            cpu: 500m
+        env:
+        - name: DYO_MONGODB_CONNECTIONSTRING
+          value: "mongodb://mongodb:27017/"
+        - name: DYO_STORAGE_ADAPTER_SERVICE_PORT
+          value: "80"
+        - name: ASPNETCORE_ENVIRONMENT
+          value: ""
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sensewire-storage-adapter
+spec:
+  ports:
+    - protocol: TCP
+      port: 80
+  selector:
+    app: sensewire-storage-adapter

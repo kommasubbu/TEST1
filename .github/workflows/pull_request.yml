@@ -1,0 +1,23 @@
+name: storage-adapter-PR-raised
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize]
+    
+jobs:
+  statuschecks: 
+    name: restore and do dotnet operations
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: clone the repository
+      uses: actions/checkout@v2
+    - name: Setup .NET SDK version
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.x
+    - name: Restore
+      run: dotnet restore src/WebService/WebService.csproj
+    - name: Build with dotnet
+      run: dotnet build src/WebService/WebService.csproj --configuration Release
