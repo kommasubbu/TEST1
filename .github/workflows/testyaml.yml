@@ -1,0 +1,20 @@
+name: test
+on:
+  pull_request
+   branches:[master]
+   types:[opened, synchronize]
+   
+jobs:
+ testyamlworkflow:
+  name: ubuntu machine
+  runs-on: ubuntu-latest
+  
+  steps:
+  - name: clone the repo
+    uses: actions/checkout@v3
+  - name: dotnet SDK setup
+    uses: actions/setup-dotnet@v1
+    with:
+     dotnet-version: 5.x
+  - name: restore
+    run: dotnet restore src/WebService/WebService.csproj
