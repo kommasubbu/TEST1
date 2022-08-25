@@ -1,7 +1,7 @@
 name: again for test
 on:
   pull_request
-   branches:[master]
+   branches:[storage-adaptor]
    types:[opened, synchronize]
    
 jobs:
