@@ -1,7 +1,7 @@
 name: again for test
 on:
   pull_request
-   branches:[storage-adaptor]
+   branches:[yaml-practice-1]
    types:[opened, synchronize]
    
 jobs:
