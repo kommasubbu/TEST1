@@ -1,4 +1,4 @@
-name: test
+name: again for test
 on:
   pull_request
    branches:[master]
@@ -16,5 +16,5 @@ jobs:
     uses: actions/setup-dotnet@v1
     with:
      dotnet-version: 5.x
-  - name: restore
+  - name: restore again for test
     run: dotnet restore src/WebService/WebService.csproj
