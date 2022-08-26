@@ -9,7 +9,7 @@ jobs:
   name: ubuntu machine
   runs-on: ubuntu
   
-   steps:
+  steps:
    - name: clone the code from repository
      uses: actions/checkout@v3
    - name: Dotnet SDK setup
