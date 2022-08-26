@@ -1,4 +1,4 @@
-name: again for test
+name: test-pull
 on:
   pull_request
    branches:[ storage-adaptor ]
