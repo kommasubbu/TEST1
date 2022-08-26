@@ -1,7 +1,7 @@
 name: again for test
 on:
   pull_request
-   branches:[yaml-practice-1]
+   branches:[ storage-adaptor ]
    types:[opened, synchronize]
    
 jobs:
@@ -16,5 +16,5 @@ jobs:
     uses: actions/setup-dotnet@v1
     with:
      dotnet-version: 5.x
-  - name: restore again for test
+  - name: restore again for testing
     run: dotnet restore src/WebService/WebService.csproj
