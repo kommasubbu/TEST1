@@ -1,8 +1,8 @@
 name: test-pull-request
 on:
- pull_request:
-  branches: [storage-adaptor]
-  types: [opened, synchronize]
+  pull_request:
+    branches: [storage-adaptor]
+    types: [opened, synchronize]
   
 jobs: 
  testingpull:
