@@ -1,15 +1,15 @@
 name: test-pull-request
 on:
- pull_request:
-  branches:[storage-adaptor]
-  types:[opened, synchronize]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
   
 jobs: 
  testingpull:
   name: ubuntu machine
   runs-on: ubuntu
   
-   steps:
+  steps:
    - name: clone the code from repository
      uses: actions/checkout@v3
    - name: Dotnet SDK setup
