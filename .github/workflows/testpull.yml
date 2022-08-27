@@ -17,5 +17,8 @@ jobs:
      with:
       dotnet-version: 5.x
    - name: restore
-     run: dotnet restore src/WebService/WebService.csproj 
+     run: dotnet restore src/WebService/WebService.csproj
+   - name: listing the files
+     run: cd home/runner/work/TEST1/TEST1/src/WebService/WebService.csproj && ls -ltr 
+        
   
