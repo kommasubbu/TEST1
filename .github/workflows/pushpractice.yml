@@ -2,7 +2,7 @@ name: storage-adapter-continuous
 
 on:
   push:
-    branches: [develop]
+    branches: [main]
     
 env:
   IMAGE_NAME: storage-adapter
