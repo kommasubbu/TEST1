@@ -1,0 +1,40 @@
+name: storage-adapter-continuous
+
+on:
+  push:
+    branches: [develop]
+    
+env:
+  IMAGE_NAME: storage-adapter
+  REGISTRY: ghcr.io/dyocense
+    
+jobs:
+  build: 
+    name: docker build image
+    runs-on: ubuntu-latest
+   
+    steps:
+    - name: checkout    
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        
+    - name: Semantic Versioning
+      id: versioning
+      uses: PaulHatch/semantic-version@v4.0.2
+      with:
+        tag_prefix: "v"
+        branch: develop
+        major_pattern: "BREAKING CHANGE"
+        minor_pattern: "feat"
+        format: "${major}.${minor}.${patch}-${increment}"
+        short_tags: true
+        bump_each_commit: false
+      
+#     - name: output semantic versioning
+#       run: echo "the image version is ${{ steps.versioning.outputs.version }}"
+    
+    - name: Setup .NET SDK version
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 6.0.x
