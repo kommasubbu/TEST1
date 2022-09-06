@@ -1,4 +1,4 @@
-name: test-pull-request
+name: testpr
 on:
   pull_request:
     branches: [main]
@@ -6,16 +6,19 @@ on:
   
 jobs: 
  testingpull:
-  name: ubuntu machine
+  name: ubuntu-latest
   runs-on: ubuntu
   
   steps:
    - name: clone the code from repository
      uses: actions/checkout@v3
-   - name: Dotnet SDK setup
+   - name: dotnet SDK setup
      uses: actions/setup-dotnet@v1
      with:
       dotnet-version: 5.x
    - name: restore
-     run: dotnet restore src/WebService/WebService.csproj 
+     run: dotnet restore src/WebService/WebService.csproj
+   - name: build dotnet
+     run: build dotnet src/WebService/WebService.csproj
+        
   
