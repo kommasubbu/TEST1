@@ -2,7 +2,7 @@ name: storage-adapter-continuous
 
 on:
   push:
-    branches: [main]
+    branches: [develop]
     
 env:
   IMAGE_NAME: storage-adapter
@@ -38,3 +38,56 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 6.0.x
+    - name: Restore
+      run: dotnet restore src/WebService/WebService.csproj
+    - name: Build with dotnet
+      run: dotnet build src/WebService/WebService.csproj --configuration Release
+    - name: publish dotnet
+      run: dotnet publish src/WebService --configuration Release
+    - name: coverlet and Msbuild
+      run: |
+        cd /home/runner/work/platform_storage_adapter/platform_storage_adapter/src/WebService.Test/
+        dotnet add package coverlet.msbuild --version 3.1.2
+        dotnet add package coverlet.collector --version 3.1.2
+    - name: Test
+      run: dotnet test src/WebService.Test/WebService.Test.csproj --collect:"XPlat Code Coverage" --results-directory ./coverage
+    - name: Copy Coverage To Predictable Location
+      run: cp coverage/**/coverage.cobertura.xml coverage/coverage.cobertura.xml
+
+    - name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.2.0
+      with:
+        filename: coverage/coverage.cobertura.xml
+        badge: true
+        fail_below_min: false
+        format: markdown
+        hide_branch_rate: false
+        hide_complexity: true
+        indicators: true
+        output: both
+        thresholds: '60 80'  
+
+    - name: Buildah Action
+      id: build-image
+      uses: redhat-actions/buildah-build@v2
+      with:
+        image: ${{ env.IMAGE_NAME }}
+        tags: ${{ steps.versioning.outputs.version }}
+        containerfiles: |
+          ./scripts/docker/
+        
+    - name: Log in to the GHCR
+      uses: redhat-actions/podman-login@v1
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Push to GitHub Container Repository
+      id: push-to-ghcr
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: ${{ env.REGISTRY }}
+      
